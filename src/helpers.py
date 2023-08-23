@@ -5,6 +5,19 @@
 import math
 from constants import LOCALES
 
+
+colors = []
+
+
+def set_color_snapshot(col):
+    global colors
+    colors = col
+
+
+def get_color_snapshot():
+    return colors
+
+
 def get_next_locale(locale):
     """Cycle through the locales and get the next locale."""
     keys = list(LOCALES.keys())

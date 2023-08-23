@@ -12,12 +12,12 @@ class ColorDetection:
 
     def __init__(self):
         self.prominent_color_palette = {
-            'red'   : (0, 0, 255),
-            'orange': (0, 165, 255),
-            'blue'  : (255, 0, 0),
-            'green' : (0, 255, 0),
-            'white' : (255, 255, 255),
-            'yellow': (0, 255, 255)
+            'red'   : (50, 50, 250),
+            # 'orange': (0, 165, 255),
+            'blue'  : (200, 150, 50),
+            # 'green' : (0, 255, 0),
+            'white' : (235, 235, 235),
+            # 'yellow': (0, 255, 255)
         }
 
         # Load colors from config and convert the list -> tuple.

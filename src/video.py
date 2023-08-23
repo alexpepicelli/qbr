@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # vim: fenc=utf-8 ts=4 sw=4 et
+import asyncio
+
+import helpers
 
 import cv2
 from colordetection import color_detector
@@ -28,14 +31,17 @@ from constants import (
     E_ALREADY_SOLVED
 )
 
+
 class Webcam:
+
+    color_snapshot = []
 
     def __init__(self):
         print('Starting webcam... (this might take a while, please be patient)')
         self.cam = cv2.VideoCapture(0)
         print('Webcam successfully started')
 
-        self.colors_to_calibrate = ['green', 'red', 'blue', 'orange', 'white', 'yellow']
+        self.colors_to_calibrate = ['red', 'blue', 'white']
         self.average_sticker_colors = {}
         self.result_state = {}
 
@@ -258,6 +264,12 @@ class Webcam:
     def update_snapshot_state(self):
         """Update the snapshot state based on the current preview state."""
         self.snapshot_state = list(self.preview_state)
+
+        colors = []
+        for color in range(9):
+            color_name = color_detector.get_closest_color(self.snapshot_state[color])['color_name']
+            colors.append(color_name)
+        helpers.set_color_snapshot(colors)
         center_color_name = color_detector.get_closest_color(self.snapshot_state[4])['color_name']
         self.result_state[center_color_name] = self.snapshot_state
         self.draw_snapshot_stickers()
@@ -461,13 +473,14 @@ class Webcam:
                     return False
         return True
 
-    def run(self):
+    async def run(self):
         """
         Open up the webcam and present the user with the Qbr user interface.
 
         Returns a string of the scanned state in rubik's cube notation.
         """
         while True:
+
             _, frame = self.cam.read()
             self.frame = frame
             key = cv2.waitKey(10) & 0xff
@@ -526,6 +539,7 @@ class Webcam:
                 self.draw_2d_cube_state()
 
             cv2.imshow("Qbr - Rubik's cube solver", self.frame)
+            await asyncio.sleep(0.1)
 
         self.cam.release()
         cv2.destroyAllWindows()

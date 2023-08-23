@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # vim: fenc=utf-8 ts=4 sw=4 et
-
+import asyncio
 import sys
 import kociemba
 import argparse
+
+import websocket
+
 from video import webcam
 import i18n
 import os
@@ -35,7 +38,9 @@ class Qbr:
 
     def run(self):
         """The main function that will run the Qbr program."""
-        state = webcam.run()
+
+        # socket = asyncio.run(websocket.run())
+        state = asyncio.run(webcam.run())
 
         # If we receive a number then it's an error code.
         if isinstance(state, int) and state > 0:
@@ -77,6 +82,7 @@ if __name__ == '__main__':
               "Turn the right side 180 degrees".'
     )
     args = parser.parse_args()
-
     # Run Qbr with all arguments.
     Qbr(args.normalize).run()
+
+
