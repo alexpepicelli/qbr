@@ -3,6 +3,7 @@ import websockets
 import threading
 
 import helpers
+import simple_outlet
 
 
 # colors = []
@@ -26,14 +27,15 @@ def main():
                     print("GET REPLY:", reply)
             if msg == "SUCCESS":
                 helpers.set_color_snapshot([])
-
+            if "MARKER" in msg:
+                simple_outlet.push(msg[7:])
             await websocket.send(reply)
             await asyncio.sleep(0)
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    server = websockets.serve(handler, "10.220.98.111", 5564)
+    server = websockets.serve(handler, "10.220.54.88", 5564)
     loop.run_until_complete(server)
     loop.run_forever()
 
