@@ -8,7 +8,7 @@ import json
 class Config:
 
     def __init__(self):
-        self.config_dir = os.path.expanduser('~/.config/qbr')
+        self.config_dir = os.path.expanduser('.\\.config')
         self.settings_file = os.path.join(self.config_dir, 'settings.json')
 
         try:

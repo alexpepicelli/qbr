@@ -482,6 +482,7 @@ class Webcam:
         while True:
 
             _, frame = self.cam.read()
+            # self.frame = cv2.resize(frame, (self.width*2, self.height*2))
             self.frame = frame
             key = cv2.waitKey(10) & 0xff
 
