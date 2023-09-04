@@ -8,7 +8,6 @@ import simple_outlet
 
 # colors = []
 
-
 # def update_colors(col):
 #     global colors
 #     colors = col
@@ -23,6 +22,8 @@ def main():
             colors = helpers.get_color_snapshot()
             if msg == "GET":
                 if len(colors) > 0:
+                    await asyncio.sleep(0.5)
+                    colors = helpers.get_color_snapshot()
                     reply = "GET:" + ','.join(colors)
                     print("GET REPLY:", reply)
             if msg == "SUCCESS":
