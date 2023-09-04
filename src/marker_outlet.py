@@ -5,7 +5,7 @@ outlet = None
 
 def main():
 
-    info = StreamInfo("PythonStream", "Markers", 1, 0, 'string', '123456789')
+    info = StreamInfo("MainStream", "Markers", 1, 0, 'string', '123456789')
     global outlet
     outlet = StreamOutlet(info)
 

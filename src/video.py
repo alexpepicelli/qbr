@@ -39,6 +39,7 @@ class Webcam:
     def __init__(self):
         print('Starting webcam... (this might take a while, please be patient)')
         self.cam = cv2.VideoCapture(0)
+
         print('Webcam successfully started')
 
         self.colors_to_calibrate = ['red', 'blue', 'white']
@@ -54,6 +55,8 @@ class Webcam:
 
         self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        # self.cam.set(cv2.CAP_PROP_EXPOSURE, 10)
+        # self.cam.set(cv2.CAP_PROP_BRIGHTNESS, 10)
         self.width = int(self.cam.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.height = int(self.cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
@@ -493,6 +496,7 @@ class Webcam:
             if not self.calibrate_mode:
                 # Update the snapshot when space bar is pressed.
                 if key == 32:
+                    await asyncio.sleep(1.3)
                     self.update_snapshot_state()
 
                 # Switch to another language.

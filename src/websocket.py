@@ -3,7 +3,8 @@ import websockets
 import threading
 
 import helpers
-import simple_outlet
+import marker_outlet
+import gaze_outlet
 
 
 # colors = []
@@ -22,14 +23,17 @@ def main():
             colors = helpers.get_color_snapshot()
             if msg == "GET":
                 if len(colors) > 0:
-                    await asyncio.sleep(0.5)
+                    # await asyncio.sleep(0.5)
                     colors = helpers.get_color_snapshot()
                     reply = "GET:" + ','.join(colors)
                     print("GET REPLY:", reply)
             if msg == "SUCCESS":
                 helpers.set_color_snapshot([])
             if "MARKER" in msg:
-                simple_outlet.push(msg[7:])
+                if "GAZE" in msg:
+                    gaze_outlet.push(msg[7:])
+                else:
+                    marker_outlet.push(msg[7:])
             await websocket.send(reply)
             await asyncio.sleep(0)
 
