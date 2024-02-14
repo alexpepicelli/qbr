@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # vim: fenc=utf-8 ts=4 sw=4 et
 import asyncio
+import threading
+import time
 
 import helpers
 
@@ -476,6 +478,10 @@ class Webcam:
                     return False
         return True
 
+    def delayed_snapshot(self):
+        time.sleep(1.3)
+        self.update_snapshot_state()
+
     async def run(self):
         """
         Open up the webcam and present the user with the Qbr user interface.
@@ -496,8 +502,8 @@ class Webcam:
             if not self.calibrate_mode:
                 # Update the snapshot when space bar is pressed.
                 if key == 32:
-                    await asyncio.sleep(1.3)
-                    self.update_snapshot_state()
+                    thread = threading.Thread(target=self.delayed_snapshot)
+                    thread.start()
 
                 # Switch to another language.
                 if key == ord(SWITCH_LANGUAGE_KEY):

@@ -23,12 +23,17 @@ def main():
             colors = helpers.get_color_snapshot()
             if msg == "GET":
                 if len(colors) > 0:
-                    # await asyncio.sleep(0.5)
                     colors = helpers.get_color_snapshot()
                     reply = "GET:" + ','.join(colors)
                     print("GET REPLY:", reply)
+            if msg == "RESET":
+                helpers.set_color_snapshot([])
             if msg == "SUCCESS":
                 helpers.set_color_snapshot([])
+            if "RUN/TRIAL" in msg:
+                print(msg)
+            if "INFO" in msg:
+                print(msg)
             if "MARKER" in msg:
                 if "GAZE" in msg:
                     gaze_outlet.push(msg[7:])
@@ -40,7 +45,7 @@ def main():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    server = websockets.serve(handler, "10.220.54.222", 5564)
+    server = websockets.serve(handler, "10.220.57.116", 5564) 
     loop.run_until_complete(server)
     loop.run_forever()
 
